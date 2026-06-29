@@ -14,7 +14,24 @@
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <div style>
+      <h1>WVIdList</h1>
+      <ul>
+        @for(item of WVIdList|async;track item){
+        <li>
+          
+          <button (click)="showWV(item)">
+            {{item}}
+          </button>
+          &nbsp;
+          <button (click)="closeWV(item)">
+            X
+          </button>
+        </li>
+        }
+
+      </ul>
+      <button (click)="openNewWV()">Open New</button>
+    </div>
   </div>
 </ion-content>
