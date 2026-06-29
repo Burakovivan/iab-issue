@@ -28,8 +28,7 @@ export class HomePage {
           icon: "ic_close_black_24dp",
           iconType: 'asset'
         }
-      },
-      invisibilityMode:InvisibilityMode.FAKE_VISIBLE,
+      }, 
       backgroundColor: BackgroundColor.WHITE,
       hidden: false
     });
