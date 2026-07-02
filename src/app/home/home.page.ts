@@ -3,6 +3,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/stan
 import { BackgroundColor, InAppBrowser, InvisibilityMode, ToolBarType } from '@capgo/capacitor-inappbrowser'
 import { BehaviorSubject } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-home',
@@ -14,11 +15,9 @@ export class HomePage {
   WVCounter: number = 0;
   async openNewWV() {
 
-    var bringToBackOnStart = false;
     let { id } = await InAppBrowser.openWebView({
       url: `https://www.google.com/search?q=WV_number_${this.WVCounter++}`,
-      toolbarType: ToolBarType.COMPACT,
-
+      toolbarType: ToolBarType.COMPACT, 
       buttonNearDone: {
         ios: {
           icon: "chevron.down",
@@ -30,16 +29,20 @@ export class HomePage {
         }
       },
       backgroundColor: BackgroundColor.WHITE,
-      hidden: false,
-      toBack: bringToBackOnStart
+      hidden: false, 
 
     });
     this.showWV(id);
-    if (!bringToBackOnStart) {
+
+    setTimeout(() => {
+      InAppBrowser.sendToBack({ id });
+      AppComponent.Invisible.next(true);
       setTimeout(() => {
-        InAppBrowser.sendToBack({ id });
+        AppComponent.Invisible.next(false);
+        InAppBrowser.bringToFront({ id });
       }, 5000);
-    }
+    }, 5000);
+
 
     this.WVIdList.next([...this.WVIdList.getValue(), id]);
     this.lastOpenedOrShownWVId = id;
